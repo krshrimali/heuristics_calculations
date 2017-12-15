@@ -7,18 +7,36 @@ var yStep;
 var positions = []; 
 var items = [];
 function Euclidean(){
-  console.log("YOu are typing: ", this.value());
-  console.log("Items is: ", items);
+  // console.log("YOu are typing: ", this.value());
+  // console.log("Items is: ", items);
   if(items.length >= 2){
     var item1 = items.pop();
     var item2 = items.pop();
-    console.log(item1, item2);
+    // console.log(item1, item2);
+    // strokeWeight(3);
     line(item1.x, item1.y, item2.x, item2.y);
-    // stroke(100);
+    distance = sqrt(pow((item1.x - item2.x),2) + pow((item2.y - item1.y),2));
+    string_e = "SLD: " + str(round(distance));
+    text(string_e, (item1.x + item2.x)/2, (item1.y + item2.y)/2);
+
+    console.log("Euclidean distance is: ", distance);
   }
-  // line(Ax, Bx, Ay, By);
-  // distance = sqrt(pow((Bx - Ax),2) + pow((By - Ay),2));
-  // console.log("Eucliedian distance is: ", distance);
+}
+
+function Manhattan(){
+  if(items.length >= 2){
+    var item1 = items.pop();
+    var item2 = items.pop();
+    // strokeWeight(2);
+    line(item1.x, item1.y, item2.x, item1.y);
+    // strokeWeight(5);
+    // stroke(155);
+    line(item2.x, item1.y, item2.x, item2.y);
+    distance1 = abs(item1.x - item2.x) + abs(item1.y - item2.y);
+    string = "MD : " + str(round(distance1));
+    text(string, (item1.x + item2.x)/2, item1.y - 20);
+    console.log("Manhattan distance is: ", distance1); 
+  }
 }
 function setup(){
   canvas = createCanvas(500, 500);
@@ -38,8 +56,8 @@ function setup(){
       positions.push(p);
     }
   }
-  var inp = createInput('Enter two values: ');
-  inp.input(Euclidean);
+  // var inp = createInput('Enter two values: ');
+  // inp.input(Euclidean);
 } 
 
 function draw(){
@@ -47,16 +65,24 @@ function draw(){
   fill(250, 100, 100); 
   // alphabet =  1;
   for(var i = 0; i < positions.length; i++){ //go through all our positions
-    line(positions[i].x, positions[i].y, positions[i].x + height, positions[i].y); //put a circle at each of them
-    line(positions[i].x, positions[i].y, positions[i].x, positions[i].y + width);
+    // line(positions[i].x, positions[i].y, positions[i].x + height, positions[i].y); //put a circle at each of them
+    // line(positions[i].x, positions[i].y, positions[i].x, positions[i].y + width);
     ellipse(positions[i].x, positions[i].y, 3, 3);
     // text(positions[i].z, positions[i].x, positions[i].y);
     // text(alphabet, positions[i].x, positions[i].y + 3);
     // alphabet += 1;
   }
   line(500, 0, 500, 500);
-
   // canvas.mouseOver(showElement);
+}
+
+function keyPressed() {
+  if(keyCode == RETURN) {
+    Manhattan();
+  }
+  else if(keyCode == ESCAPE) {
+    Euclidean();
+  }
 }
 
 // function showElement(A, B){
